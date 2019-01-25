@@ -1,0 +1,12 @@
+[Unit]
+Name=BUAA_Login
+Description="Login to BUAA GateWay"
+
+[Service]
+Type=simple
+PIDFile=/run/BUAA_Login.pid
+ExecStart=/usr/local/bin/BUAA_Login
+
+[Install]
+WantedBy=network.target
+

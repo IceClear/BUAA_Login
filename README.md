@@ -15,17 +15,21 @@ chmod +x ~/scripts/BUAA_Login.sh
 ~/scripts/BUAA_Login.sh
 ```
 
-
 The scripts should be up and running. It will re-login every 2 hours.  
 
 现在脚本应当开始运行了，它会每隔两小时自动重新登录一次。
 
 ## How to make this script a startup service 如何让脚本开机启动
 
-Insert line `~/scripts/BUAA_Login.sh &` into file `etc/rc.local` above the final line `exit 0`.  
+For distributions with `systemd` as main init program, a systemd unit is included.
 
-在`/etc/rc.local`文件的最后一行`exit 0`上方插入一行：`~/scripts/BUAA_Login.sh &`。
+针对基于`systemd`的发行版，可以使用一个单元文件将其安装为服务。
 
-Then reboot, use `ps -A | grep BUAA_Login.sh` to see if the scripts is running.  
-
-然后重启，用`ps -A | grep BUAA_Login.sh` 看看脚本是不是在运行。
+```
+mkdir -pv /usr/local/bin
+mkdir -pv /usr/local/lib/systemd/system
+install -Dm755 BUAA_Login.sh /usr/local/bin/BUAA_Login
+install -Dm644 BUAA_Login.service /usr/local/lib/systemd/system/
+systemctl daemon-reload
+systemctl enable BUAA_Login.service
+```
